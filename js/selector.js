@@ -2,24 +2,6 @@ var test = $('body').data('test');
 console.log ('Viewing test: ', test);
 
 var selected = JSON.parse(localStorage.getItem(test + '-selected')) || {
-    age: {
-        "all": true,
-        "16-and-over": true,
-        "16-to-24": true,
-        "25-to-34": true,
-        "35-to-49": true,
-        "50-and-over": true
-    },
-    sex: {
-        "all": true,
-        "female": true,
-        "male": true
-    },
-    residence: {
-        "all": true,
-        "household": true,
-        "communal": true
-    },
     time: {
         "none": false,
         "all": true,
@@ -276,206 +258,9 @@ var selected = JSON.parse(localStorage.getItem(test + '-selected')) || {
     }
 };
 
-$('.js-change-sex').click( function() {
-
-    var modalName = $(this).data('modal');
-    setCheckBoxesInModal(modalName);
-    openModal(modalName);
-    setSelectAllButton(modalName);
-    onCheckBoxChange(modalName);
-
-    $('#options__sex-save').click(function(e) {
-        e.preventDefault();
-
-        $('.selected-' + modalName).empty();
-
-        getCheckBoxesInModal(modalName);
-
-        saveToLocalStorage();
-
-        $('#options__sex-save').off();
-        $('.options__sex').hide();
-    });
-
-});
-
-$('.js-change-age').click( function() {
-
-    var modalName = $(this).data('modal');
-    setCheckBoxesInModal(modalName);
-    openModal(modalName);
-    setSelectAllButton(modalName);
-    onCheckBoxChange(modalName);
-
-    $('#options__age-save').click(function(e) {
-        e.preventDefault();
-
-        $('.selected-' + modalName).empty();
-
-        getCheckBoxesInModal(modalName);
-
-        saveToLocalStorage();
-
-        $('#options__age-save').off();
-        $('.options__age').hide();
-    });
-
-});
-
-$('.js-change-time').click( function() {
-
-    var modalName = $(this).data('modal');
-    setCheckBoxesInModal(modalName);
-    openModal(modalName);
-    setSelectAllButton(modalName);
-    onCheckBoxChange(modalName);
-
-    $('#options__time-save').click(function(e) {
-        e.preventDefault();
-
-        $('.selected-' + modalName).empty();
-
-        getCheckBoxesInModal(modalName);
-
-        saveToLocalStorage();
-
-        $('#options__time-save').off();
-        $('.options__time').hide();
-    });
-
-});
-
-$('.js-change-residence').click( function() {
-
-    var modalName = $(this).data('modal');
-    setCheckBoxesInModal(modalName);
-    openModal(modalName);
-    setSelectAllButton(modalName);
-    onCheckBoxChange(modalName);
-
-    $('#options__residence-save').click(function(e) {
-        e.preventDefault();
-
-        $('.selected-' + modalName).empty();
-
-        getCheckBoxesInModal(modalName);
-
-        saveToLocalStorage();
-
-        $('#options__residence-save').off();
-        $('.options__residence').hide();
-    });
-
-});
-
-$('.js-close-modal').click(function(e) {
-    e.preventDefault();
-    var modalName = $(this).data('modal');
-    $('.options__' + modalName).hide();
-});
-
-function openModal(modalClass) {
-    $('.options__' + modalClass).show();
-}
-
-function setCheckBoxesInModal(modalClass) {
-    $('.options__' + modalClass).find('input').each( function() {
-        var option = $(this).data('option');
-        var dimension = $(this).data('dimension');
-        if (selected[dimension][option]) {
-            $(this).prop( "checked", true )
-        } else {
-            $(this).prop( "checked", false )
-        }
-
-    });
-}
-
-function getCheckBoxesInModal(modalClass) {
-    $('.options__' + modalClass).find('input').each( function() {
-        var option = $(this).data('option');
-        var dimension = $(this).data('dimension');
-        var labelText = $(this).next().text();
-        var selectedList = $('.selected-' + modalClass);
-
-        if ($(this).prop( "checked" )) {
-            selected[dimension][option] = true;
-
-            //edge case for time with year
-            var yearPosixMatch = option.match(/-(\d\d\d\d)$/);
-            if (yearPosixMatch && yearPosixMatch.length > 0) {
-                labelText += ', ' + yearPosixMatch[1]
-            }
-
-            selectedList.append(wrapInDiv(labelText));
-        } else {
-            selected[dimension][option] = false;
-        }
-
-    });
-}
-
-function getTimeRange(timeRangeArray) {
-    // var from = utilities.mapShortDateToFullDate(selected.time.times[0]),
-    //     to = utilities.mapShortDateToFullDate(selected.time.times[selected.time.times.length-1]);
-
-    var from = utilities.mapShortDateToFullDate(timeRangeArray[0]),
-        to =  utilities.mapShortDateToFullDate(timeRangeArray[1]);
-
-    return (from === to) ? from : from + " to " + to;
-}
-
 function wrapInDiv(text) {
     return $('<div class="selected__item">' + text + '</div>');
 }
-
-function saveToLocalStorage() {
-    localStorage.setItem(test + '-selected', JSON.stringify(selected));
-}
-
-
-/* Builds and render the selected options on selector page **/
-// $(function(){
-//     $.each(selected, function(key, value) {
-//         var selectedList = $('.selected-' + key),
-//             count = 0,
-//             timeRange = [],
-//             selectedText = "",
-//             allChildrenSelected = true;
-//
-//         // Not looping through time dimension, so being ignored for the moment. Will need to add in special aggregate later, so this should probably be removed then.
-//         if (key !== "time") {
-//             return;
-//         }
-//
-//         $.each(value, function(childKey, childValue) {
-//
-//             // Time set to false, ignore
-//             if (!childValue) {
-//                 allChildrenSelected = false;
-//                 return;
-//             }
-//
-//             // If this is first valid key then set first time (used later in date range)
-//             if (!timeRange[0]) {
-//                 timeRange[0] = childKey;
-//             }
-//
-//             // Set last time in range
-//             timeRange[1] = childKey;
-//
-//             count++
-//         });
-//
-//         if (allChildrenSelected) {
-//             selectedText = "Everything selected (" + count + ") <br>";
-//         }
-//
-//         selectedText += getTimeRange(timeRange);
-//
-//         selectedList.append(wrapInDiv(selectedText));
-//     });
-// });
 
 /* Populate selected times */
 $(function(){
@@ -485,7 +270,7 @@ $(function(){
             allChildrenSelected = !selected.time['none'];
 
         $.each(selected.time, function(childKey, childValue) {
-            // Ignore all flags
+            // Ignore all and none flags
             if (childKey === "all" || childKey === "none") {
                 return;
             }
@@ -506,40 +291,4 @@ $(function(){
         }
 
         selectedList.append(wrapInDiv(selectedText));
-});
-
-function setSelectAllButton(modalClass) {
-    $('.options__' + modalClass).find('input').each( function() {
-        $('.js-select-all').hide();
-        $('.js-deselect-all').show();
-        if ($(this).prop('checked') != true) {
-            $('.js-select-all').show();
-            $('.js-deselect-all').hide();
-            return false;
-        }
-
-    });
-}
-
-function onCheckBoxChange(modalClass) {
-    $('input').on( "change", function() {
-        //alert( "Handler for .change() called." );
-        setSelectAllButton(modalClass)
-    });
-}
-
-$('.js-select-all').click(function() {
-    $(this).siblings('form').find('input').each( function() {
-        $(this).prop( "checked", true );
-    });
-    $('.js-select-all').hide();
-    $('.js-deselect-all').show();
-});
-
-$('.js-deselect-all').click(function() {
-    $(this).siblings('form').find('input').each( function() {
-        $(this).prop( "checked", false );
-    });
-    $('.js-select-all').show();
-    $('.js-deselect-all').hide();
 });

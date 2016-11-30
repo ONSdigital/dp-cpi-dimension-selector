@@ -251,6 +251,10 @@ a:hover {
     display: block;
 }
 
-.select-all, .deselect-all {
+.select-all {
     display: none;
+}
+
+.deselect-all {
+    display: inline;
 }
