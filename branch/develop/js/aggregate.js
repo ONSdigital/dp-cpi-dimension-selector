@@ -49,12 +49,12 @@ var addView = {
 
         for (i = 0; i < aggregatesLength; i++) {
             var checked = aggregates[i].selected ? "" : "",
-                uid = !aggregates[i].uid ? "" : " (" + aggregates[i].uid + ")";
+                uid = !aggregates[i].uid ? "" : "(" + aggregates[i].uid + ") ";
 
             checkboxes.push(
                 '<div class="checkbox">' +
                     '<input data-index="' + i + '" class="form-add__checkbox" data-title="' + aggregates[i].title + '" type="checkbox" id="' + aggregates[i].uid + '" name="' + aggregates[i].uid + '">' +
-                    '<label for="' + aggregates[i].uid + '">' + aggregates[i].title + uid + '</label>' +
+                    '<label for="' + aggregates[i].uid + '">' + uid + aggregates[i].title + '</label>' +
                 '</div>'
             );
         }
