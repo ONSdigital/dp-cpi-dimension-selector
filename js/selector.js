@@ -10,8 +10,6 @@ if (!localData) {
 
 var selected = localData;
 
-console.log(selected);
-
 function wrapInDiv(text) {
     return $('<div class="selected__item">' + text + '</div>');
 }
@@ -23,14 +21,8 @@ $(function() {
         selectedText = "",
         i;
 
-    if (selected.selectedAggregates.length > 0) {
-        var selectedAggregatesLength = selected.selectedAggregates.length;
-
-        for (i = 0; i < selectedAggregatesLength; i++) {
-            count++
-        }
-
-        selectedText = "custom selection (" + count + ") <br>";
+    if (selected.selectedAggregates.length > 0 && selected.selectedAggregates.length < 22) {
+        selectedText = "custom selection (" + selected.selectedAggregates.length + ") <br>";
         $aggregateList.append(wrapInDiv(selectedText));
 
         return;
@@ -47,11 +39,7 @@ $(function() {
        count++
     }
 
-    // if (count === aggregatesLength) {
-        selectedText = "everything selected (" + count + ") <br>";
-    // } else {
-    //     selectedText = "custom selection (" + count + ") <br>";
-    // }
+    selectedText = "everything selected (22) <br>";
 
     $aggregateList.append(wrapInDiv(selectedText));
 });

@@ -32,6 +32,7 @@ function buildData() {
 var addView = {
     init: function() {
         console.log('Initialise add view');
+        selectedAggregates = [];
         $add.addClass('active');
         this.renderCheckboxes();
         this.bind.all();
@@ -47,12 +48,12 @@ var addView = {
             i;
 
         for (i = 0; i < aggregatesLength; i++) {
-            var checked = aggregates[i].selected ? "checked" : "",
+            var checked = aggregates[i].selected ? "" : "",
                 uid = !aggregates[i].uid ? "" : " (" + aggregates[i].uid + ")";
 
             checkboxes.push(
                 '<div class="checkbox">' +
-                    '<input data-index="' + i + '" class="form-add__checkbox" data-title="' + aggregates[i].title + '" type="checkbox" id="' + aggregates[i].uid + '" name="' + aggregates[i].uid + '" ' + checked + '>' +
+                    '<input data-index="' + i + '" class="form-add__checkbox" data-title="' + aggregates[i].title + '" type="checkbox" id="' + aggregates[i].uid + '" name="' + aggregates[i].uid + '">' +
                     '<label for="' + aggregates[i].uid + '">' + aggregates[i].title + uid + '</label>' +
                 '</div>'
             );
@@ -108,7 +109,76 @@ var addView = {
 var editView = {
     init: function() {
         console.log('Initialise edit view');
+        selectedAggregates = localData.selectedAggregates;
         $edit.addClass('active');
+        this.renderSelections();
+        this.bind.all();
+    },
+
+    renderSelections: function() {
+        document.getElementById('form-edit__checkboxes').innerHTML = this.selectionsTemplate();
+    },
+
+    selectionsTemplate: function() {
+        var checkboxes = [],
+            aggregatesLength = selectedAggregates.length,
+            i;
+
+        for (i = 0; i < aggregatesLength; i++) {
+            checkboxes.push(
+                '<div class="checkbox">' +
+                    '<input class="edit-checkbox" data-index="' + i + '" type="checkbox" id="' + localData.selectedAggregates[i].uid + '" name="' + localData.selectedAggregates[i].uid + '" checked>' +
+                    '<label for="' + localData.selectedAggregates[i].uid + '">' + localData.selectedAggregates[i].title + '</label>' +
+                '</div>'
+            );
+        }
+
+        return checkboxes.join('');
+    },
+
+    bind: {
+        all: function() {
+            this.checkboxes();
+            this.formSubmit();
+            this.addMoreLink();
+        },
+
+        checkboxes: function() {
+            $('.edit-checkbox').change(function() {
+                var $this = $(this);
+                selectedAggregates[$this.attr('data-index')].selected = $this.is(':checked');
+            });
+        },
+
+        formSubmit: function() {
+            $('#form-edit').submit(function(event) {
+                event.preventDefault();
+
+                var newSelectedAggregates = [];
+
+                selectedAggregates.map(function(thisObject) {
+                    if (thisObject.selected) {
+                        newSelectedAggregates.push(thisObject);
+                    }
+                });
+
+                var newLocalData = localData;
+
+                newLocalData.selectedAggregates = newSelectedAggregates;
+
+                localStorage.setItem(test + '-selected', JSON.stringify(newLocalData));
+
+                window.location.pathname = '/selector.html';
+            });
+        },
+
+        addMoreLink: function() {
+            $('#edit-add-more').click(function() {
+                $('#form-edit__checkboxes').empty();
+                $edit.removeClass('active');
+                addView.init();
+            });
+        }
     }
 };
 
@@ -190,16 +260,48 @@ var confirmView = {
     bind: {
         allOrCustomiseSubmit: function() {
             $('#form-confirm').submit(function(event) {
+                var radioValue = $('input[name="allOrCustom"]:checked').val();
+
                 event.preventDefault();
 
-                if ($('input[name="allOrCustom"]:checked').val() === 'all') {
-                    $confirm.removeClass('active').empty();
-                    editView.init();
+                if (radioValue === 'all') {
+                    var newSelectedAggregates = localData.selectedAggregates;
+
+                    aggregates[selectedAggregates[0]]['children'].map(function(thisObject) {
+                        var alreadySelected = (localData.selectedAggregates).some(function(aggregate) {
+                            return (aggregate.title === thisObject.title);
+                        });
+
+                        if (!alreadySelected) {
+                            thisObject.selected = true;
+                            newSelectedAggregates.push(thisObject);
+                        }
+                    });
+
+                    var newLocalData = localData;
+
+                    newLocalData.selectedAggregates = newSelectedAggregates;
+                    newLocalData.customisedDimensions.aggregates = true;
+
+                    localStorage.setItem(test + '-selected', JSON.stringify(newLocalData));
+
+                    selectedAggregates.splice(0, 1);
+
+                    if (selectedAggregates.length === 0) {
+                        window.location.pathname = '/selector.html';
+                        return;
+                    }
+
+
+                    confirmView.render.allOrCustomise();
+                    confirmView.bind.allOrCustomiseSubmit();
                     return;
                 }
 
-                $confirm.empty();
-                confirmView.render.customise()
+                if (radioValue === 'custom') {
+                    $confirm.empty();
+                    confirmView.render.customise();
+                }
             });
         },
 
