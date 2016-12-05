@@ -29,49 +29,38 @@
     <div class="col--lg-two-thirds">
 
         <div style="position:relative; overflow:hidden; min-height: 650px;">
-
-            <div id="time--edit" class="section">
+            <div class="section" id="aggregates--edit">
                 <a href="selector.html" class="btn--everything margin-top--2">Back</a>
-                <h1 class="margin-top--2 margin-bottom--1">Customise months</h1>
-                <a class="select-all js-select-all btn--everything margin-bottom--2">Select all</a>
-                <a class="deselect-all js-deselect-all btn--everything margin-bottom--2">Deselect all</a>
-
-                <form id="edit" class="margin-bottom--3">
+                <h1 id="form-edit__title" class="margin-top--2 margin-bottom--1">Customise special aggregates</h1>
+                <a class="select-all" href="javascript:void(0)">Select all</a>
+                <a class="deselect-all" href="javascript:void(0)">Deselect all</a>
+                <form id="form-edit" class="margin-bottom--3">
                     <fieldset>
-                        <legend class="visuallyhidden">Customise months</legend>
-                        <div id="edit__checkboxes" class="margin-top--2 margin-left--0 margin-bottom--2 padding-bottom--2 border-bottom--gallery-md col-wrap width-md--48 width-lg--48"></div>
-                        <a class="js-add-times" href="javascript:void(0)">Add more dates</a>
+                        <legend class="visuallyhidden">Customise special aggregates</legend>
+                        <div id="form-edit__checkboxes" class="margin-top--2 margin-left--0 margin-bottom--2 padding-bottom--2 border-bottom--gallery-md col-wrap width-md--48 width-lg--48"></div>
                     </fieldset>
-                    <button id="edit__submit" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Save selection</button>
+                    <a id="edit-add-more" class="block" href="javascript:void(0)">Add more items</a>
+                    <button id="form-edit__next" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Save selection</button>
                     <a class="btn btn--secondary btn--thick btn--wide btn--big margin-top--4 margin-bottom--8" href="selector.html">Cancel</a>
-                    <span class="background--poppy block width--16 text-center" id="edit__validation"></span>
+                    <span class="background--poppy block width--16 text-center" id="form-edit__errors"></span>
                 </form>
             </div>
 
-            <div id="time--add" class="section">
+            <div class="section" id="aggregates--add">
                 <a href="selector.html" class="btn--everything margin-top--2">Back</a>
-                <h1 class="margin-top--2 margin-bottom--1">Add a single month or range</h1>
-
-                <form id="add">
+                <h1 id="form-add__title" class="margin-top--2 margin-bottom--1">What are you interested in?</h1>
+                <form id="form-add" class="margin-bottom--3">
                     <fieldset>
-                        <legend class="visuallyhidden">Add a single month or range</legend>
-                        <div class="margin-top--2 margin-left--0 padding-bottom--2 border-bottom--gallery-md col-wrap width-md--48 width-lg--48">
-                            <div class="radio" id="add__options">
-                                <input id="add-month" name="add__options" type="radio" value="month">
-                                <label for="add-month">Single month</label>
-                                <input id="add-range" name="add__options" type="radio" value="range" checked>
-                                <label for="add-range">Range</label>
-                            </div>
-                            <div id="add__select"></div>
-                        </div>
+                        <legend class="visuallyhidden">What are you interested in?</legend>
+                        <div id="form-add__checkboxes" class="margin-top--2 margin-left--0 margin-bottom--2 padding-bottom--2 border-bottom--gallery-md col-wrap width-md--48 width-lg--48"></div>
                     </fieldset>
-                    <button id="button--add" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4">Add</button>
+                    <button id="form-add__next" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Next</button>
                     <a class="btn btn--secondary btn--thick btn--wide btn--big margin-top--4 margin-bottom--8" href="selector.html">Cancel</a>
+                    <span class="background--poppy block width--16 text-center" id="form-add__errors"></span>
                 </form>
-
-
             </div>
 
+            <div class="section" id="aggregates--confirm"></div>
         </div>
     </div>
 </div>
@@ -96,7 +85,7 @@
         crossorigin="anonymous">
 </script>
 <script src="js/utilities.js" type="text/javascript"></script>
-<script src="js/time.js" type="text/javascript"></script>
+<script src="js/aggregate.js" type="text/javascript"></script>
 
 <script>
 

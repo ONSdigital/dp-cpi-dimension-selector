@@ -241,7 +241,7 @@ a:hover {
 }
 
 
-/** TIME STYLING **/
+/** TIME & AGGREGATES SELECTOR STYLING **/
 
 .section {
     display: none;
@@ -257,4 +257,54 @@ a:hover {
 
 .deselect-all {
     display: inline;
+}
+
+h1 > span {
+    font-size: 35px;
+    font-weight: 400;
+    line-height: 48px;
+    margin: 48px 0;
+    padding: 2px 0 6px 0;
+}
+
+
+.footer {
+    margin-top: 60px;
+}
+
+
+.selected-locations .foldable-container,
+.selected-locations .foldable-container:last-child {
+    border: none;
+}
+
+.selected-locations .foldable .foldable-header:before {
+    content: "\25BA";
+    color: #3B7A9E;
+    padding-right: 4px;
+}
+.selected-locations .foldable.expanded .foldable-header:before {
+    content: "\25BC";
+}
+
+.file-types.foldable .foldable-header:before {
+    content: "\25BA";
+    color: #3B7A9E;
+    padding-right: 4px;
+}
+.file-types.foldable.expanded .foldable-header:before {
+    content: "\25BC";
+}
+
+.file-types.foldable .foldable-body {
+    border-left: solid #aaaaaa 3px;
+    padding-left: 16px;
+}
+.file-types.foldable .foldable-body h4 {
+    font-weight: 700;
+}
+
+.foldable.file-types {
+    border-top: 1px solid #aaaaaa;
+    padding-top: 16px;
 }
