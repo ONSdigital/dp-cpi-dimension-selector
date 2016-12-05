@@ -141,10 +141,14 @@ var editView = {
             this.checkboxes();
             this.formSubmit();
             this.addMoreLink();
+            this.selectDeselectLink();
         },
 
         checkboxes: function() {
             $('.edit-checkbox').change(function() {
+                $('.deselect-all').hide();
+                $('.select-all').show();
+
                 var $this = $(this);
                 selectedAggregates[$this.attr('data-index')].selected = $this.is(':checked');
             });
@@ -154,13 +158,20 @@ var editView = {
             $('#form-edit').submit(function(event) {
                 event.preventDefault();
 
-                var newSelectedAggregates = [];
+                var newSelectedAggregates = [],
+                    noneSelected = true;
 
                 selectedAggregates.map(function(thisObject) {
                     if (thisObject.selected) {
+                        noneSelected = false;
                         newSelectedAggregates.push(thisObject);
                     }
                 });
+
+                if (noneSelected) {
+                    document.getElementById('form-edit__errors').innerHTML = "Select at least one option";
+                    return;
+                }
 
                 var newLocalData = localData;
 
@@ -177,6 +188,22 @@ var editView = {
                 $('#form-edit__checkboxes').empty();
                 $edit.removeClass('active');
                 addView.init();
+            });
+        },
+
+        selectDeselectLink: function() {
+            $('.select-all').click(function() {
+                $('.deselect-all').show();
+                $('.select-all').hide();
+
+                $('.edit-checkbox').attr('checked', true).change();
+            });
+
+            $('.deselect-all').click(function() {
+                $('.deselect-all').hide();
+                $('.select-all').show();
+
+                $('.edit-checkbox').attr('checked', false).change();
             });
         }
     }
@@ -222,7 +249,8 @@ var confirmView = {
                             '</div>' +
                         '</div> ' +
                     '</fieldset> ' +
-                    '<button id="form-confirm__customise" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Next</button> ' +
+                    '<button id="form-confirm__customise" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Next</button>' +
+                    '<a class="btn btn--secondary btn--thick btn--wide btn--big margin-top--4 margin-bottom--8 margin-left--1" href="selector.html">Cancel</a>' +
                     '<span class="background--poppy block width--16 text-center" id="form-confirm__errors"></span> ' +
                 '</form>'
         },
@@ -252,6 +280,7 @@ var confirmView = {
                         '</div> ' +
                     '</fieldset> ' +
                     '<button id="form-confirm--customise__next" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Next</button> ' +
+                    '<a class="btn btn--secondary btn--thick btn--wide btn--big margin-top--4 margin-bottom--8 margin-left--1" href="selector.html">Cancel</a>' +
                     '<span class="background--poppy block width--16 text-center" id="form-confirm__errors"></span> ' +
                 '</form>'
         }
@@ -288,7 +317,7 @@ var confirmView = {
                     selectedAggregates.splice(0, 1);
 
                     if (selectedAggregates.length === 0) {
-                        window.location.pathname = '/selector.html';
+                        window.location.pathname = '/aggregate.html';
                         return;
                     }
 
@@ -334,7 +363,7 @@ var confirmView = {
                 selectedAggregates.splice(0, 1);
 
                 if (selectedAggregates.length === 0) {
-                    window.location.pathname = '/selector.html';
+                    window.location.pathname = '/aggregate.html';
                     newLocalData.customisedDimensions.aggregates = true;
                     localStorage.setItem(test + '-selected', JSON.stringify(newLocalData));
                     return;

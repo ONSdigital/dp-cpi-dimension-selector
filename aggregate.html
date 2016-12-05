@@ -19,7 +19,7 @@
                     <img class="main-logo" src="https://www.ons.gov.uk/assets/img/ons-logo.svg" alt="Office for National Statistics">
                 </a>
             </div>
-            <a class="float-right font-size--14 margin-top--2" href="javascript: localStorage.removeItem('test-cpi-selected'); window.location.pathname = '/selector.html'">Empty local storage</a>
+            <a class="float-right font-size--14 margin-top--2 hide" href="javascript: localStorage.removeItem('test-cpi-selected'); window.location.pathname = '/selector.html'">Empty local storage</a>
         </div>
     </div>
 </nav>
@@ -32,13 +32,16 @@
             <div class="section" id="aggregates--edit">
                 <a href="selector.html" class="btn--everything margin-top--2">Back</a>
                 <h1 id="form-edit__title" class="margin-top--2 margin-bottom--1">Customise special aggregates</h1>
+                <a class="select-all" href="javascript:void(0)">Select all</a>
+                <a class="deselect-all" href="javascript:void(0)">Deselect all</a>
                 <form id="form-edit" class="margin-bottom--3">
                     <fieldset>
                         <legend class="visuallyhidden">Customise special aggregates</legend>
                         <div id="form-edit__checkboxes" class="margin-top--2 margin-left--0 margin-bottom--2 padding-bottom--2 border-bottom--gallery-md col-wrap width-md--48 width-lg--48"></div>
                     </fieldset>
                     <a id="edit-add-more" class="block" href="javascript:void(0)">Add more items</a>
-                    <button id="form-edit__next" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Apply</button>
+                    <button id="form-edit__next" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Save selection</button>
+                    <a class="btn btn--secondary btn--thick btn--wide btn--big margin-top--4 margin-bottom--8" href="selector.html">Cancel</a>
                     <span class="background--poppy block width--16 text-center" id="form-edit__errors"></span>
                 </form>
             </div>
@@ -52,6 +55,7 @@
                         <div id="form-add__checkboxes" class="margin-top--2 margin-left--0 margin-bottom--2 padding-bottom--2 border-bottom--gallery-md col-wrap width-md--48 width-lg--48"></div>
                     </fieldset>
                     <button id="form-add__next" class="btn btn--primary btn--thick btn--wide btn--big margin-top--4 margin-bottom--1">Next</button>
+                    <a class="btn btn--secondary btn--thick btn--wide btn--big margin-top--4 margin-bottom--8" href="selector.html">Cancel</a>
                     <span class="background--poppy block width--16 text-center" id="form-add__errors"></span>
                 </form>
             </div>
