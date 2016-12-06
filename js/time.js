@@ -554,7 +554,7 @@ var editView = {
 
             localStorage.setItem(test + '-selected', JSON.stringify(localData));
 
-            window.location.pathname = '/selector.html';
+            window.location.pathname = utilities.getRelativePath('selector.html');
         });
     }
 };

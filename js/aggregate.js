@@ -179,7 +179,7 @@ var editView = {
 
                 localStorage.setItem(test + '-selected', JSON.stringify(newLocalData));
 
-                window.location.pathname = '/selector.html';
+                window.location.pathname = utilities.getRelativePath('selector.html');
             });
         },
 
@@ -317,7 +317,7 @@ var confirmView = {
                     selectedAggregates.splice(0, 1);
 
                     if (selectedAggregates.length === 0) {
-                        window.location.pathname = '/aggregate.html';
+                        window.location.pathname = utilities.getRelativePath('aggregate.html');
                         return;
                     }
 
@@ -363,7 +363,7 @@ var confirmView = {
                 selectedAggregates.splice(0, 1);
 
                 if (selectedAggregates.length === 0) {
-                    window.location.pathname = '/aggregate.html';
+                    window.location.pathname = utilities.getRelativePath('aggregate.html');
                     newLocalData.customisedDimensions.aggregates = true;
                     localStorage.setItem(test + '-selected', JSON.stringify(newLocalData));
                     return;

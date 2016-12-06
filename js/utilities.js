@@ -4,6 +4,13 @@
 
 var utilities = {
 
+    // Needed for Github pages because it has extra parts of URL that need to be added into window.location.pathname
+    getRelativePath: function(relativePath) {
+        var newPathname = (window.location.pathname).split('/');
+        newPathname.splice([newPathname.length-1], 1, relativePath);
+        return newPathname.join('/');
+    },
+
     mapShortDateToFullDate: function(shortDate) {
         var dateArray = shortDate.split('-');
 
